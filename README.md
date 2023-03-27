@@ -17,3 +17,26 @@ into
 In normal mode, it will try and convert the current line. In visual mode
 it will try to convert the selected text. If convertion fail, the command
 will fail and display an error message in the `:messages`.
+
+## Installation
+
+For [Lazy](https://github.com/folke/lazy.nvim), simply add this plugin spec
+to your config:
+
+```lua
+{
+    "meuter/hex-static.nvim",
+    config = function()
+        require("hex-static").setup()
+    end
+}
+```
+
+or even shorter:
+
+```lua
+{
+    "meuter/hex-static.nvim",
+    config = true
+}
+```
