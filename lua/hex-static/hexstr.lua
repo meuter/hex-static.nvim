@@ -1,8 +1,6 @@
-local edits = require("hex-static.edits")
-
 local M = {}
 
-local function is_hexstring(text)
+function M.is_hexstring(text)
     -- strip white spaces
     local stripped = text:gsub("%s+", "")
 
@@ -22,7 +20,7 @@ local function is_hexstring(text)
     return true
 end
 
-local function hexstring_to_c_array(text)
+function M.to_c_array(text)
     -- strip  spaces
     local line = text:gsub("%s+", "")
 
@@ -50,20 +48,6 @@ local function hexstring_to_c_array(text)
     end
 
     return lines_to_insert
-end
-
-function M.hexstring_selection_to_c_array()
-    local text = edits.get_selected_text()
-    if not is_hexstring(text) then return end
-    local lines_to_insert = hexstring_to_c_array(text)
-    edits.replace_selection_with(lines_to_insert)
-end
-
-function M.hexstring_word_under_cursor_to_c_array()
-    local text = edits.get_word_under_cursor()
-    if not is_hexstring(text) then return end
-    local lines_to_insert = hexstring_to_c_array(text)
-    edits.replace_word_under_cursor_with(lines_to_insert)
 end
 
 return M

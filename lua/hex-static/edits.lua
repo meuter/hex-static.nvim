@@ -46,7 +46,7 @@ function M.get_word_under_cursor()
     return vim.fn.expand("<cword>")
 end
 
-local function replace_range_with(range, to_insert)
+function M.replace_range_with(range, to_insert)
     if type(to_insert) == "table" then
         to_insert = table.concat(to_insert, "\n")
     end
@@ -69,11 +69,11 @@ local function replace_range_with(range, to_insert)
 end
 
 function M.replace_selection_with(to_insert)
-    replace_range_with(M.get_selected_range(), to_insert)
+    M.replace_range_with(M.get_selected_range(), to_insert)
 end
 
 function M.replace_word_under_cursor_with(to_insert)
-    replace_range_with(M.get_word_under_cursor_range(), to_insert)
+    M.replace_range_with(M.get_word_under_cursor_range(), to_insert)
 end
 
 return M

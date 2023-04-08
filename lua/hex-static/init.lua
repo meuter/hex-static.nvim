@@ -1,12 +1,22 @@
 local M = {}
 
 local function hexstring_to_c_arrray(args)
-    local hexconvert = require("hex-static.hexconvert")
+    local hexstr = require("hex-static.hexstr")
+    local edits = require("hex-static.edits")
+    local text = nil
+    local range = nil
+
     if args.range == 0 then
-        hexconvert.hexstring_word_under_cursor_to_c_array()
+        text = edits.get_word_under_cursor()
+        range = edits.get_word_under_cursor_range()
     elseif args.range == 2 then
-        hexconvert.hexstring_selection_to_c_array()
+        text = edits.get_selected_text()
+        range = edits.get_selected_range()
     end
+    if not hexstr.is_hexstring(text) then
+        return
+    end
+    edits.replace_range_with(range, hexstr.to_c_array(text))
 end
 
 function M.setup(_)
