@@ -53,18 +53,10 @@ local function hexstring_to_c_array(text)
 end
 
 function M.hexstring_selection_to_c_array()
-    local selected_lines = edits.get_selected_lines()
-    local text = table.concat(selected_lines, "")
+    local text = edits.get_selected_text()
     if not is_hexstring(text) then return end
     local lines_to_insert = hexstring_to_c_array(text)
     edits.replace_selection_with(lines_to_insert)
-end
-
-function M.hexstring_current_line_to_c_array()
-    local text = edits.get_current_line()
-    if not is_hexstring(text) then return end
-    local lines_to_insert = hexstring_to_c_array(text)
-    edits.replace_current_line_with(lines_to_insert)
 end
 
 function M.hexstring_word_under_cursor_to_c_array()

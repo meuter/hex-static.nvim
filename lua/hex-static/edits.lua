@@ -9,19 +9,6 @@ function M.get_selected_range()
     }
 end
 
-function M.get_current_line_range()
-    local current_position = vim.api.nvim_win_get_cursor(0)
-    local current_line_index = current_position[1] -- lua table are 1-indexed!
-    local current_line = M.get_current_line()
-
-    return {
-        start_row = current_line_index,
-        start_col = 1,
-        end_row = current_line_index,
-        end_col = #current_line,
-    }
-end
-
 function M.get_word_under_cursor_range()
     local current_line_index, current_column_index = unpack(vim.api.nvim_win_get_cursor(0))
     local line = vim.fn.getline('.')
@@ -53,10 +40,6 @@ function M.get_selected_lsp_range()
     return M.convert_range_to_lsp_range(M.get_selected_range())
 end
 
-function M.get_current_line_lsp_range()
-    return M.convert_range_to_lsp_range(M.get_current_line_range())
-end
-
 function M.get_word_under_cursor_lsp_range()
     return M.convert_range_to_lsp_range(M.get_word_under_cursor_range())
 end
@@ -82,24 +65,6 @@ end
 
 function M.get_word_under_cursor()
     return vim.fn.expand("<cword>")
-end
-
-function M.get_current_line()
-    return vim.api.nvim_get_current_line()
-end
-
-function M.get_current_mode()
-    return M.get_selected_lines()
-end
-
-function M.replace_current_line_with(lines_to_insert)
-    local edits = {
-        {
-            range = M.get_current_line_lsp_range(),
-            newText = table.concat(lines_to_insert, "\n")
-        }
-    }
-    vim.lsp.util.apply_text_edits(edits, 0, "utf-16")
 end
 
 function M.replace_selection_with(lines_to_insert)
