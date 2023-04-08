@@ -3,7 +3,7 @@ local M = {}
 local function hexstring_to_c_arrray(args)
     local hexconvert = require("hex-static.hexconvert")
     if args.range == 0 then
-        hexconvert.hexstring_current_line_to_c_array()
+        hexconvert.hexstring_word_under_cursor_to_c_array()
     elseif args.range == 2 then
         hexconvert.hexstring_selection_to_c_array()
     end

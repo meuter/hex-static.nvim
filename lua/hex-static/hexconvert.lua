@@ -61,10 +61,18 @@ function M.hexstring_selection_to_c_array()
 end
 
 function M.hexstring_current_line_to_c_array()
-    local current_line = edits.get_current_line()
-    if not is_hexstring(current_line) then return end
-    local lines_to_insert = hexstring_to_c_array(current_line)
+    local text = edits.get_current_line()
+    if not is_hexstring(text) then return end
+    local lines_to_insert = hexstring_to_c_array(text)
     edits.replace_current_line_with(lines_to_insert)
+end
+
+function M.hexstring_word_under_cursor_to_c_array()
+    local text = edits.get_word_under_cursor()
+    print(vim.inspect(text))
+    if not is_hexstring(text) then return end
+    local lines_to_insert = hexstring_to_c_array(text)
+    edits.replace_word_under_cursor_with(lines_to_insert)
 end
 
 return M

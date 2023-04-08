@@ -14,7 +14,7 @@ into
 0x01, 0xAA, 0x44, 0x68, 0x42, 0x00
 ```
 
-In normal mode, it will try and convert the current line. In visual mode
+In normal mode, it will try and convert the word under the cursor. In visual mode
 it will try to convert the selected text. If convertion fail, the command
 will fail and display an error message in the `:messages`.
 
