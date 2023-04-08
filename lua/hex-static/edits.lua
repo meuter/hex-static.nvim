@@ -23,27 +23,6 @@ function M.get_word_under_cursor_range()
     }
 end
 
-function M.convert_range_to_lsp_range(range)
-    return {
-        ["start"] = {
-            line = range.start_row - 1,
-            character = range.start_col - 1,
-        },
-        ["end"] = {
-            line = range.end_row - 1,
-            character = range.end_col,
-        },
-    }
-end
-
-function M.get_selected_lsp_range()
-    return M.convert_range_to_lsp_range(M.get_selected_range())
-end
-
-function M.get_word_under_cursor_lsp_range()
-    return M.convert_range_to_lsp_range(M.get_word_under_cursor_range())
-end
-
 function M.get_selected_lines()
     local range = M.get_selected_range()
     local text = vim.api.nvim_buf_get_lines(0, range.start_row - 1, range.end_row, false)
@@ -67,24 +46,34 @@ function M.get_word_under_cursor()
     return vim.fn.expand("<cword>")
 end
 
-function M.replace_selection_with(lines_to_insert)
+local function replace_range_with(range, to_insert)
+    if type(to_insert) == "table" then
+        to_insert = table.concat(to_insert, "\n")
+    end
     local edits = {
         {
-            range = M.get_selected_lsp_range(),
-            newText = table.concat(lines_to_insert, "\n")
+            range = {
+                ["start"] = {
+                    line = range.start_row - 1,
+                    character = range.start_col - 1,
+                },
+                ["end"] = {
+                    line = range.end_row - 1,
+                    character = range.end_col,
+                },
+            },
+            newText = to_insert
         }
     }
     vim.lsp.util.apply_text_edits(edits, 0, "utf-16")
 end
 
-function M.replace_word_under_cursor_with(lines_to_insert)
-    local edits = {
-        {
-            range = M.get_word_under_cursor_lsp_range(),
-            newText = table.concat(lines_to_insert, "\n")
-        }
-    }
-    vim.lsp.util.apply_text_edits(edits, 0, "utf-16")
+function M.replace_selection_with(to_insert)
+    replace_range_with(M.get_selected_range(), to_insert)
+end
+
+function M.replace_word_under_cursor_with(to_insert)
+    replace_range_with(M.get_word_under_cursor_range(), to_insert)
 end
 
 return M

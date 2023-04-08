@@ -61,7 +61,6 @@ end
 
 function M.hexstring_word_under_cursor_to_c_array()
     local text = edits.get_word_under_cursor()
-    print(vim.inspect(text))
     if not is_hexstring(text) then return end
     local lines_to_insert = hexstring_to_c_array(text)
     edits.replace_word_under_cursor_with(lines_to_insert)
