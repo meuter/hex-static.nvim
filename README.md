@@ -1,3 +1,8 @@
+# Archived
+
+This project is archived: `hex-static.nvim` joined forces with the
+[`nibbler`](https://github.com/Skosulor/nibbler) plugin.
+
 # `hex-static.nvim`
 
 This plugin simply exposes one command `:HexStringToCArray` that does exactly
